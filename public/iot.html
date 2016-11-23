@@ -18,8 +18,8 @@
    <canvas width="600" height="150" id="accXGraph"></canvas> Acc X
    <canvas width="600" height="150" id="accYGraph"></canvas> Acc Y
    <canvas width="600" height="150" id="accZGraph"></canvas> Acc Z
-   <canvas width="1225" height="150" id="barGraph"></canvas> Barometer
-   <canvas width="1225" height="150" id="tempGraph"></canvas> Temp
+   <canvas width="1230" height="150" id="barGraph"></canvas> Barometer
+   <canvas width="1230" height="150" id="tempGraph"></canvas> Temp
   
 <script>
 var magX = new TimeSeries();
@@ -140,10 +140,10 @@ var time = new Date().getTime();
 	
    function createTimelineBar() {
        var chartBar = new SmoothieChart({
-		   maxValue : 1013,
-		   minValue : 985,
+	//	   maxValue : 1013,
+       //		   minValue : 985,
            millisPerPixel: 100,
-           labels:{disabled:true},
+           labels:{disabled:false},
            grid: {fillStyle: '#7afdff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
@@ -159,10 +159,10 @@ var time = new Date().getTime();
    
    function createTimelineTemp() {
        var chartTemp = new SmoothieChart({
-    	   maxValue : 30,
-		   minValue : 0,
+    	   maxValue : 25,
+		   minValue : 15,
            millisPerPixel: 100,
-           labels:{disabled:true},
+           labels:{disabled:false},
            grid: {fillStyle: 'rgba(0,0,0,1.0)'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
