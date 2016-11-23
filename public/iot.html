@@ -18,8 +18,8 @@
    <canvas width="600" height="150" id="accXGraph"></canvas> Acc X
    <canvas width="600" height="150" id="accYGraph"></canvas> Acc Y
    <canvas width="600" height="150" id="accZGraph"></canvas> Acc Z
-   <canvas width="600" height="150" id="barGraph"></canvas> Barometer
-   <canvas width="1200" height="150" id="tempGraph"></canvas> Temp
+   <canvas width="1225" height="150" id="barGraph"></canvas> Barometer
+   <canvas width="1225" height="150" id="tempGraph"></canvas> Temp
   
 <script>
 var magX = new TimeSeries();
@@ -84,24 +84,28 @@ var time = new Date().getTime();
    }
 
    function createTimelineAccX() {
-       var chartAccx = new SmoothieChart({
+       var chartAccX = new SmoothieChart({
+           maxValue : -30,
+           minValue : -80,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
 
-       chartAccx.addTimeSeries(accX, {
+       chartAccX.addTimeSeries(accX, {
            strokeStyle: '#f9ff61',
            fillStyle: '#3f3fff',
            lineWidth: 4
        });
 
-       chartAccy.streamTo(document.getElementById("accYGraph"), 1000);
+       chartAccX.streamTo(document.getElementById("accXGraph"), 1000);
    }
    
    function createTimelineAccY() {
        var chartAccY = new SmoothieChart({
+           maxValue: 0,
+           minValue: -50,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -117,6 +121,8 @@ var time = new Date().getTime();
 
    function createTimelineAccZ() {
        var chartAccZ = new SmoothieChart({
+           maxValue: 1375,
+           minValue: 1325,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
