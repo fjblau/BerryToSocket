@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Streaming Chart Example</title>
+    <script src="/javascripts/smoothie.js" > </script>
+    <script src="/socket.io/socket.io.js" > </script>
+  </head>
+  <body>
+    <h1>Berry IMU - Sammamish</h1>
+	<script language="javascript">
+ 			var today = new Date();
+ 			document.write(today);
+ 	</script>
+ 	<br>
+   <canvas width="600" height="150" id="magXGraph"></canvas> Mag X
+   <canvas width="600" height="150" id="magYGraph"></canvas> Mag Y
+   <canvas width="600" height="150" id="magZGraph"></canvas> Mag Z
+   <canvas width="600" height="150" id="accXGraph"></canvas> Acc X
+   <canvas width="600" height="150" id="accYGraph"></canvas> Acc Y
+   <canvas width="600" height="150" id="accZGraph"></canvas> Acc Z
+   <canvas width="1230" height="150" id="barGraph"></canvas> Barometer
+   <canvas width="1230" height="150" id="tempGraph"></canvas> Temp
+  
+<script>
+var magX = new TimeSeries();
+var magY = new TimeSeries();
+var magZ = new TimeSeries();
+var accX = new TimeSeries();
+var accY = new TimeSeries();
+var accZ = new TimeSeries();
+var bar = new TimeSeries();
+var temp = new TimeSeries();
+var time = new Date().getTime();
+  
+   function createTimelineMagX() {
+       var chartMagX = new SmoothieChart({
+    	   maxValue : 410,
+		   minValue : 380,
+           millisPerPixel: 100,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+       chartMagX.addTimeSeries(magX, {
+           strokeStyle: '#ff847d',
+           fillStyle: '#3f3fff',
+           lineWidth: 4
+       });
+       chartMagX.streamTo(document.getElementById("magXGraph"), 1000);
+   }
+
+   function createTimelineMagY() {
+       var chartMagy = new SmoothieChart({
+    	   maxValue : 85,
+		   minValue : 55,
+           millisPerPixel: 100,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+       chartMagy.addTimeSeries(magY, {
+           strokeStyle: '#f9ff61',
+           fillStyle: '#3f3fff',
+           lineWidth: 4
+       });
+       chartMagy.streamTo(document.getElementById("magYGraph"), 1000);
+   }
+   
+   function createTimelineMagZ() {
+       var chartMagZ = new SmoothieChart({
+    	   maxValue : 915,
+		   minValue : 885,
+           millisPerPixel: 100,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+       chartMagZ.addTimeSeries(magZ, {
+           strokeStyle: '#7cff76',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+       chartMagZ.streamTo(document.getElementById("magZGraph"), 1000);
+   }
+
+   function createTimelineAccX() {
+       var chartAccX = new SmoothieChart({
+           maxValue : -30,
+           minValue : -80,
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartAccX.addTimeSeries(accX, {
+           strokeStyle: '#f9ff61',
+           fillStyle: '#3f3fff',
+           lineWidth: 4
+       });
+
+       chartAccX.streamTo(document.getElementById("accXGraph"), 1000);
+   }
+   
+   function createTimelineAccY() {
+       var chartAccY = new SmoothieChart({
+           maxValue: 0,
+           minValue: -50,
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+       chartAccY.addTimeSeries(accY, {
+           strokeStyle: '#7cff76',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+       chartAccY.streamTo(document.getElementById("accYGraph"), 1000);
+   }
+
+   function createTimelineAccZ() {
+       var chartAccZ = new SmoothieChart({
+           maxValue: 1375,
+           minValue: 1325,
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartAccZ.addTimeSeries(accZ, {
+           strokeStyle: '#7cff76',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+
+       chartAccZ.streamTo(document.getElementById("accZGraph"), 1000);
+   }
+	
+   function createTimelineBar() {
+       var chartBar = new SmoothieChart({
+	//	   maxValue : 1013,
+       //		   minValue : 985,
+           millisPerPixel: 100,
+           labels:{disabled:false},
+           grid: {fillStyle: '#7afdff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartBar.addTimeSeries(bar, {
+           strokeStyle: '#392637',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+
+       chartBar.streamTo(document.getElementById("barGraph"), 1000);
+   }
+   
+   function createTimelineTemp() {
+       var chartTemp = new SmoothieChart({
+           minValue: 15,
+    	   maxValueScale : 1.2,
+		   minValueScale : 1.2,
+           millisPerPixel: 100,
+           labels:{disabled:false},
+           grid: {fillStyle: 'rgba(0,0,0,1.0)'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartTemp.addTimeSeries(temp, {
+           strokeStyle: 'rgba(251, 154, 153, 1)',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+
+       chartTemp.streamTo(document.getElementById("tempGraph"), 1000);
+   }
+   
+   createTimelineMagX();
+   createTimelineMagY();
+   createTimelineMagZ();
+   createTimelineAccX();
+   createTimelineAccY();
+   createTimelineAccZ();
+   createTimelineBar();
+   createTimelineTemp();
+   var socket = io('/');
+   socket.on('newdata', function (msg) {
+       var sample = JSON.parse(msg);
+       console.log(msg);
+       magX.append(new Date().getTime(), sample.magX);
+       magY.append(new Date().getTime(), sample.magY);
+       magZ.append(new Date().getTime(), sample.magZ);
+       accX.append(new Date().getTime(), sample.accX);
+       accY.append(new Date().getTime(), sample.accY);
+       accZ.append(new Date().getTime(), sample.accZ);
+       bar.append(new Date().getTime(), sample.hPa);
+       temp.append(new Date().getTime(), sample.temp);
+   });
+</script>
+  </body>
+</html>
