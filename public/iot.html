@@ -4,6 +4,12 @@
     <title>Streaming Chart Example</title>
     <script src="/javascripts/smoothie.js" > </script>
     <script src="/socket.io/socket.io.js" > </script>
+    <style type="text/css">
+		.tg  {border-collapse:collapse;border-spacing:0;}
+		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+		.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+		.tg .tg-yw4l{vertical-align:top}
+    </style>
   </head>
   <body>
     <h1>Berry IMU - Sammamish</h1>
@@ -12,14 +18,36 @@
  			document.write(today);
  	</script>
  	<br>
-   <canvas width="600" height="150" id="magXGraph"></canvas> Mag X
-   <canvas width="600" height="150" id="magYGraph"></canvas> Mag Y
-   <canvas width="600" height="150" id="magZGraph"></canvas> Mag Z
-   <canvas width="600" height="150" id="accXGraph"></canvas> Acc X
-   <canvas width="600" height="150" id="accYGraph"></canvas> Acc Y
-   <canvas width="600" height="150" id="accZGraph"></canvas> Acc Z
-   <canvas width="1230" height="150" id="barGraph"></canvas> Barometer
-   <canvas width="1230" height="150" id="tempGraph"></canvas> Temp
+<table class="tg">
+  <tr>
+    <th class="tg-yw4l">Magnetometer</th>
+    <th class="tg-yw4l">Accelerator</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="magXGraph"></canvas></td>
+    <td class="tg-yw4l" align="center"> <canvas width="600" height="150" id="accXGraph"></canvas></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="magYGraph"></canvas></td>
+    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="accYGraph"></canvas></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" align="center"> <canvas width="600" height="150" id="magZGraph"></canvas></td>
+    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="accZGraph"></canvas></td>
+  </tr>
+  <tr>
+    <th class="tg-yw4l" colspan="2" align = "center">Barometer</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="2" align = "center"><canvas width="1230" height="150" id="barGraph"></canvas></td>
+  </tr>
+  <tr>
+    <th class="tg-yw4l" colspan="2" align = "center">Temperature</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="2"> <canvas width="1230" height="150" id="tempGraph"></canvas></td>
+  </tr>
+</table>
   
 <script>
 var magX = new TimeSeries();
