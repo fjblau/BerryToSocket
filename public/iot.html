@@ -12,16 +12,22 @@
  			document.write(today);
  	</script>
  	<br>
-   <canvas width="1200" height="150" id="magXGraph"></canvas> Mag X
-   <canvas width="1200" height="150" id="magYGraph"></canvas> Mag Y
-   <canvas width="1200" height="150" id="magZGraph"></canvas> Mag Z
-   <canvas width="1200" height="150" id="barGraph"></canvas> Barometer
+   <canvas width="600" height="150" id="magXGraph"></canvas> Mag X
+   <canvas width="600" height="150" id="magYGraph"></canvas> Mag Y
+   <canvas width="600" height="150" id="magZGraph"></canvas> Mag Z
+   <canvas width="600" height="150" id="accXGraph"></canvas> Acc X
+   <canvas width="600" height="150" id="accYGraph"></canvas> Acc Y
+   <canvas width="600" height="150" id="accZGraph"></canvas> Acc Z
+   <canvas width="600" height="150" id="barGraph"></canvas> Barometer
    <canvas width="1200" height="150" id="tempGraph"></canvas> Temp
   
 <script>
 var magX = new TimeSeries();
 var magY = new TimeSeries();
 var magZ = new TimeSeries();
+var accX = new TimeSeries();
+var accY = new TimeSeries();
+var accZ = new TimeSeries();
 var bar = new TimeSeries();
 var temp = new TimeSeries();
 var time = new Date().getTime();
@@ -35,13 +41,11 @@ var time = new Date().getTime();
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
-
        chartMagX.addTimeSeries(magX, {
            strokeStyle: '#ff847d',
            fillStyle: '#3f3fff',
            lineWidth: 4
        });
-
        chartMagX.streamTo(document.getElementById("magXGraph"), 1000);
    }
 
@@ -54,13 +58,11 @@ var time = new Date().getTime();
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
-
        chartMagy.addTimeSeries(magY, {
            strokeStyle: '#f9ff61',
            fillStyle: '#3f3fff',
            lineWidth: 4
        });
-
        chartMagy.streamTo(document.getElementById("magYGraph"), 1000);
    }
    
@@ -73,16 +75,63 @@ var time = new Date().getTime();
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
-
        chartMagZ.addTimeSeries(magZ, {
            strokeStyle: '#7cff76',
            fillStyle: 'rgba(251, 154, 153, 0.2)',
            lineWidth: 4
        });
-
        chartMagZ.streamTo(document.getElementById("magZGraph"), 1000);
    }
+
+   function createTimelineAccX() {
+       var chartAccx = new SmoothieChart({
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartAccx.addTimeSeries(accX, {
+           strokeStyle: '#f9ff61',
+           fillStyle: '#3f3fff',
+           lineWidth: 4
+       });
+
+       chartAccy.streamTo(document.getElementById("accYGraph"), 1000);
+   }
    
+   function createTimelineAccY() {
+       var chartAccY = new SmoothieChart({
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+       chartAccY.addTimeSeries(accY, {
+           strokeStyle: '#7cff76',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+       chartAccY.streamTo(document.getElementById("accYGraph"), 1000);
+   }
+
+   function createTimelineAccZ() {
+       var chartAccZ = new SmoothieChart({
+           millisPerPixel: 10,
+           labels:{disabled:true},
+           grid: {fillStyle: '#3f3fff'},
+           timestampFormatter:SmoothieChart.timeFormatter
+       });
+
+       chartAccZ.addTimeSeries(accZ, {
+           strokeStyle: '#7cff76',
+           fillStyle: 'rgba(251, 154, 153, 0.2)',
+           lineWidth: 4
+       });
+
+       chartAccZ.streamTo(document.getElementById("accZGraph"), 1000);
+   }
+	
    function createTimelineBar() {
        var chartBar = new SmoothieChart({
 		   maxValue : 1013,
@@ -124,6 +173,9 @@ var time = new Date().getTime();
    createTimelineMagX();
    createTimelineMagY();
    createTimelineMagZ();
+   createTimelineAccX();
+   createTimelineAccY();
+   createTimelineAccZ();
    createTimelineBar();
    createTimelineTemp();
    var socket = io('/');
@@ -133,6 +185,9 @@ var time = new Date().getTime();
        magX.append(new Date().getTime(), sample.magX);
        magY.append(new Date().getTime(), sample.magY);
        magZ.append(new Date().getTime(), sample.magZ);
+       accX.append(new Date().getTime(), sample.accX);
+       accY.append(new Date().getTime(), sample.accY);
+       accZ.append(new Date().getTime(), sample.accZ);
        bar.append(new Date().getTime(), sample.hPa);
        temp.append(new Date().getTime(), sample.temp);
    });
