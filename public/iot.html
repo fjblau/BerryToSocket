@@ -159,8 +159,9 @@ var time = new Date().getTime();
    
    function createTimelineTemp() {
        var chartTemp = new SmoothieChart({
-    	   maxValue : 25,
-		   minValue : 15,
+           minValue: 15,
+    	   maxValueScale : 1.2,
+		   minValueScale : 1.2,
            millisPerPixel: 100,
            labels:{disabled:false},
            grid: {fillStyle: 'rgba(0,0,0,1.0)'},
