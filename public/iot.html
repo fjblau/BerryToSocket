@@ -217,12 +217,15 @@ var time = new Date().getTime();
    //socket.on('newdata', function (msg) {
        //var sample = JSON.parse(msg);
        //console.log(msg);
+    setInterval(function() {
        magX.append(new Date().getTime(), Math.random() * 10000);
        magY.append(new Date().getTime(), Math.random() * 10000);
        magZ.append(new Date().getTime(), Math.random() * 10000);
 	   accX.append(new Date().getTime(), Math.random() * 10000);
 	   accY.append(new Date().getTime(), Math.random() * 10000);
 	   accZ.append(new Date().getTime(), Math.random() * 10000);
+     }, 500);
+	
        //magX.append(new Date().getTime(), sample.magX);
        //magY.append(new Date().getTime(), sample.magY);
        //magZ.append(new Date().getTime(), sample.magZ);
