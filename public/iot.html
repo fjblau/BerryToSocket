@@ -24,7 +24,7 @@
     <th class="tg-yw4l">Accelerator</th>
   </tr>
   <tr>
-    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="magXGraph"></canvas></td>
+    <td class="tg-yw4l" align="center"><canvas width="500" height="150" id="magXGraph"></canvas></td>
     <td class="tg-yw4l" align="center"> <canvas width="600" height="150" id="accXGraph"></canvas></td>
   </tr>
   <tr>
@@ -72,7 +72,7 @@ var time = new Date().getTime();
        chartMagX.addTimeSeries(magX, {
            strokeStyle: '#ff847d',
            fillStyle: '#3f3fff',
-           lineWidth: 4
+           lineWidth: 1
        });
        chartMagX.streamTo(document.getElementById("magXGraph"), 1000);
    }
@@ -89,7 +89,7 @@ var time = new Date().getTime();
        chartMagy.addTimeSeries(magY, {
            strokeStyle: '#f9ff61',
            fillStyle: '#3f3fff',
-           lineWidth: 4
+           lineWidth: 1
        });
        chartMagy.streamTo(document.getElementById("magYGraph"), 1000);
    }
@@ -106,7 +106,7 @@ var time = new Date().getTime();
        chartMagZ.addTimeSeries(magZ, {
            strokeStyle: '#7cff76',
            fillStyle: 'rgba(251, 154, 153, 0.2)',
-           lineWidth: 4
+           lineWidth: 1
        });
        chartMagZ.streamTo(document.getElementById("magZGraph"), 1000);
    }
