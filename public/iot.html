@@ -214,7 +214,7 @@ var time = new Date().getTime();
    createTimelineBar();
    createTimelineTemp();
    var socket = io('/');
-   socket.on('newdata', function (msg) {
+   //socket.on('newdata', function (msg) {
        var sample = JSON.parse(msg);
        console.log(msg);
        magX.append(new Date().getTime(), Math.random() * 10000);
@@ -231,7 +231,7 @@ var time = new Date().getTime();
        //accZ.append(new Date().getTime(), sample.accZ);
        bar.append(new Date().getTime(), sample.hPa);
        temp.append(new Date().getTime(), sample.temp);
-   });
+   //});
 </script>
   </body>
 </html>
