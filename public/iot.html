@@ -64,6 +64,8 @@ var time = new Date().getTime();
        var chartMagX = new SmoothieChart({
     	   //maxValue : 410,
 	//	   minValue : 380,
+	   maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -81,6 +83,8 @@ var time = new Date().getTime();
        var chartMagy = new SmoothieChart({
     	   //maxValue : 85,
 	//	   minValue : 55,
+	   maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -98,6 +102,8 @@ var time = new Date().getTime();
        var chartMagZ = new SmoothieChart({
     	   //maxValue : 925,
 	//	   minValue : 885,
+	       maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -115,6 +121,8 @@ var time = new Date().getTime();
        var chartAccX = new SmoothieChart({
            //maxValue : -30,
            //minValue : -80,
+	       maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -134,6 +142,8 @@ var time = new Date().getTime();
        var chartAccY = new SmoothieChart({
            //maxValue: 0,
            //minValue: -50,
+	       maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -151,6 +161,8 @@ var time = new Date().getTime();
        var chartAccZ = new SmoothieChart({
            //maxValue: 1390,
            //minValue: 1325,
+	       maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 10,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -214,27 +226,27 @@ var time = new Date().getTime();
    createTimelineBar();
    createTimelineTemp();
    var socket = io('/');
-   //socket.on('newdata', function (msg) {
-       //var sample = JSON.parse(msg);
-       //console.log(msg);
-    setInterval(function() {
-       magX.append(new Date().getTime(), Math.random() * 10000);
-       magY.append(new Date().getTime(), Math.random() * 10000);
-       magZ.append(new Date().getTime(), Math.random() * 10000);
-	   accX.append(new Date().getTime(), Math.random() * 10000);
-	   accY.append(new Date().getTime(), Math.random() * 10000);
-	   accZ.append(new Date().getTime(), Math.random() * 10000);
-     }, 500);
+   socket.on('newdata', function (msg) {
+       var sample = JSON.parse(msg);
+       console.log(msg);
+    //setInterval(function() {
+  //    magX.append(new Date().getTime(), Math.random() * 10000);
+   //    magY.append(new Date().getTime(), Math.random() * 10000);
+    //   magZ.append(new Date().getTime(), Math.random() * 10000);
+	//   accX.append(new Date().getTime(), Math.random() * 10000);
+//	   accY.append(new Date().getTime(), Math.random() * 10000);
+	//   accZ.append(new Date().getTime(), Math.random() * 10000);
+    // }, 500);
 	
-       //magX.append(new Date().getTime(), sample.magX);
-       //magY.append(new Date().getTime(), sample.magY);
-       //magZ.append(new Date().getTime(), sample.magZ);
-       //accX.append(new Date().getTime(), sample.accX);
-       //accY.append(new Date().getTime(), sample.accY);
-       //accZ.append(new Date().getTime(), sample.accZ);
-       //bar.append(new Date().getTime(), sample.hPa);
-       //temp.append(new Date().getTime(), sample.temp);
-   //});
+       magX.append(new Date().getTime(), sample.magX);
+       magY.append(new Date().getTime(), sample.magY);
+       magZ.append(new Date().getTime(), sample.magZ);
+       accX.append(new Date().getTime(), sample.accX);
+       accY.append(new Date().getTime(), sample.accY);
+       accZ.append(new Date().getTime(), sample.accZ);
+       bar.append(new Date().getTime(), sample.hPa);
+       temp.append(new Date().getTime(), sample.temp);
+   });
 </script>
   </body>
 </html>
