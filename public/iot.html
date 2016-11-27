@@ -107,12 +107,12 @@ var time = new Date().getTime();
            minValueScale : 1.1,
            millisPerPixel: 75,
            labels:{disabled:true},
-           grid: {fillStyle: '#3f3fff'},
+           grid: {fillStyle: '#3f3fff'),
            timestampFormatter:SmoothieChart.timeFormatter
        });
        chartMagZ.addTimeSeries(magZ, {
            strokeStyle: '#7cff76',
-           fillStyle: '#rgba(255,108,118,0.30)'',
+           fillStyle: '#rgba(255,108,118,0.30)',
            lineWidth: 1
        });
        chartMagZ.streamTo(document.getElementById("magZGraph"), 1000);
