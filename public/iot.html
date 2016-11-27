@@ -73,12 +73,29 @@ var magYmax = magYcenter + magOffset;
 var magZmin = magZcenter - magOffset-10; // seems to be a little more volatile
 var magZmax = magZcenter + magOffset+10;
 
-  
+
+var accXcenter = -50;
+var accYcenter = -20;
+var accZcenter = 1370;
+var accOffset = 25;
+
+var accXmin = accXcenter - accOffset;
+var accXmax = accXcenter + accOffset;
+
+var accYmin = accYcenter - accOffset;
+var accYmax = accYcenter + accOffset;
+
+var accZmin = accZcenter - accOffset; // seems to be a little more volatile
+var accZmax = accZcenter + accOffset;
+
+var magSpeed = 30;
+var accSpeed = 10;
+
    function createTimelineMagX() {
        var chartMagX = new SmoothieChart({
     	   maxValue : magXmax,
 	       minValue : magXmin,
-           millisPerPixel: 30,
+           millisPerPixel: magSpeed,
            labels:{disabled:false,
 		   fillStyle: '#eef0f0'},
 	   grid: {fillStyle: '#4072dc'},
@@ -96,7 +113,7 @@ var magZmax = magZcenter + magOffset+10;
        var chartMagy = new SmoothieChart({
     	   maxValue : magYmax,
 	       minValue : magYmin,
-           millisPerPixel: 30,
+           millisPerPixel: magSpeed,
            labels:{disabled:false,
 		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
@@ -114,7 +131,7 @@ var magZmax = magZcenter + magOffset+10;
        var chartMagZ = new SmoothieChart({
     	   maxValue : magZmax,
 	       minValue : magZmin,
-           millisPerPixel: 30,
+           millisPerPixel: magSpeed,
            labels:{disabled:false,
 		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
@@ -130,11 +147,9 @@ var magZmax = magZcenter + magOffset+10;
 
    function createTimelineAccX() {
        var chartAccX = new SmoothieChart({
-           maxValue : -30,
-           minValue : -80,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
-           millisPerPixel: 30,
+           maxValue : accXmax,
+           minValue : accXmin,
+           millisPerPixel: accSpeed,
            labels:{disabled:false,
 		   			fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
@@ -152,11 +167,9 @@ var magZmax = magZcenter + magOffset+10;
    
    function createTimelineAccY() {
        var chartAccY = new SmoothieChart({
-           maxValue: -125,
-           minValue: -200,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
-           millisPerPixel: 30,
+    	   maxValue : accYmax,
+           minValue : accYmin,
+           millisPerPixel: accSpeed,
            labels:{disabled:false,
 		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
@@ -172,11 +185,9 @@ var magZmax = magZcenter + magOffset+10;
 
    function createTimelineAccZ() {
        var chartAccZ = new SmoothieChart({
-           maxValue: 1390,
-           minValue: 1325,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
-           millisPerPixel: 30,
+    	   maxValue : accZmax,
+           minValue : accZmin,
+           millisPerPixel: accSpeed,
             labels:{disabled:false,
 		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
