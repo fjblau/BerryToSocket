@@ -59,10 +59,10 @@ var bar = new TimeSeries();
 var temp = new TimeSeries();
 var time = new Date().getTime();
 
-var magXcenter = 415;
-var magYcenter = 50;
-var magZcenter = 840;
-var magOffset = 20;
+var magXcenter = 388;
+var magYcenter = -40;
+var magZcenter = 875;
+var magOffset = 15;
 
 var magXmin = magXcenter - magOffset;
 var magXmax = magXcenter + magOffset;
@@ -70,8 +70,9 @@ var magXmax = magXcenter + magOffset;
 var magYmin = magYcenter - magOffset;
 var magYmax = magYcenter + magOffset;
 
-var magZmin = magZcenter - magOffset;
-var magZmax = magZcenter + magOffset;
+var magZmin = magZcenter - magOffset-10; // seems to be a little more volatile
+var magZmax = magZcenter + magOffset+10;
+
   
    function createTimelineMagX() {
        var chartMagX = new SmoothieChart({
