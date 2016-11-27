@@ -58,16 +58,28 @@ var accZ = new TimeSeries();
 var bar = new TimeSeries();
 var temp = new TimeSeries();
 var time = new Date().getTime();
+
+var magXcenter = 415;
+var magYcenter = 50;
+var magZcenter = 840;
+var magOffset = 20;
+
+var magXmin = magXcenter - magOffset;
+var magXmax = magXcenter + magOffset;
+
+var magYmin = magYcenter - magOffset;
+var magYmax = magYcenter + magOffset;
+
+var magZmin = magZcenter - magOffset;
+var magZmax = magZcenter + magOffset;
   
    function createTimelineMagX() {
        var chartMagX = new SmoothieChart({
-    	   maxValue : 450,
-	   minValue : 350,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
+    	   maxValue : magXmax,
+	       minValue : magXmin,
            millisPerPixel: 30,
            labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   fillStyle: '#eef0f0'},
 	   grid: {fillStyle: '#4072dc'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
@@ -81,13 +93,11 @@ var time = new Date().getTime();
 
    function createTimelineMagY() {
        var chartMagy = new SmoothieChart({
-    	   maxValue : 125,
-	   minValue : 25,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
+    	   maxValue : magYmax,
+	       minValue : magYmin,
            millisPerPixel: 30,
            labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
@@ -101,13 +111,11 @@ var time = new Date().getTime();
    
    function createTimelineMagZ() {
        var chartMagZ = new SmoothieChart({
-    	   maxValue : 900,
-	   minValue : 800,
-	   maxValueScale : 1.1,
-           minValueScale : 1.1,
+    	   maxValue : magZmax,
+	       minValue : magZmin,
            millisPerPixel: 30,
            labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
@@ -127,9 +135,8 @@ var time = new Date().getTime();
            minValueScale : 1.1,
            millisPerPixel: 30,
            labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   			fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
-	   labels:{fillStyle:'#050207'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
 
@@ -150,9 +157,8 @@ var time = new Date().getTime();
            minValueScale : 1.1,
            millisPerPixel: 30,
            labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
-	    labels:{fillStyle:'#050207'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
        chartAccY.addTimeSeries(accY, {
@@ -171,7 +177,7 @@ var time = new Date().getTime();
            minValueScale : 1.1,
            millisPerPixel: 30,
             labels:{disabled:false,
-		   fillStyle: '#000000'},
+		   fillStyle: '#eef0f0'},
            grid: {fillStyle: '#4072dc'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
