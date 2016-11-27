@@ -1,78 +1,138 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Streaming Chart Example</title>
-    <script src="/javascripts/smoothie.js" > </script>
-    <script src="/socket.io/socket.io.js" > </script>
+    <script src="/javascripts/smoothie.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <style type="text/css">
-		.tg  {border-collapse:collapse;border-spacing:0; border-left-style: solid;border-right-style: solid;}
-		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:5px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-		.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:bold;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-		.tg h1{font-family:Arial, sans-serif;font-size:30px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-	    	.tg .tg-yw4l{vertical-align:top}
-    </style>
-  </head>
-  <body>
-    <h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">Berry IMU Sensors - IoT Streaming Data Examples</h1>
-	<iframe src="http://free.timeanddate.com/clock/i5h73bs5/n234/fc4072dc/ftb/bac4072dc/pd2/tt0/tw0/tm1/ta1/tb3" frameborder="0" width="248" height="20"></iframe>
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-left-style: solid;
+            border-right-style: solid;
+        }
 
-	  <br>
+        .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 5px 5px;
+            border-style: solid;
+            border-width: 0px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg h1 {
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg .tg-yw4l {
+            vertical-align: top
+        }
+    </style>
+</head>
+<body>
+<h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">Berry IMU Sensors - IoT Streaming Data
+    Examples</h1>
+<iframe src="http://free.timeanddate.com/clock/i5h73bs5/n234/fc4072dc/ftb/bac4072dc/pd2/tt0/tw0/tm1/ta1/tb3"
+        frameborder="0" width="248" height="20"></iframe>
+
+<br>
 <table class="tg" border-style="solid">
-  <tr>
-    <th class="tg-yw4l">Magnetometer</th>
-    <th class="tg-yw4l">Accelerometer</th>
-  </tr>
-  <tr>
-    <td class="tg-yw4l" align="center" border="none"><canvas width="580" height="140" id="magXGraph"></canvas><br>MagX</td>
-    <td class="tg-yw4l" align="center" border="none"> <canvas width="580" height="140" id="accXGraph"></canvas><br>AccX</td>
-  </tr>
-  <tr>
-    <td class="tg-yw4l" align="center" border="none"><canvas width="580" height="140" id="magYGraph"></canvas><br>MagY</td>
-    <td class="tg-yw4l" align="center" border="none"><canvas width="580" height="150" id="accYGraph"></canvas><br>AccY</td>
-  </tr>
-  <tr>
-    <td class="tg-yw4l" align="center" border="none"> <canvas width="580" height="140" id="magZGraph"></canvas><br>MagZ</td>
-    <td class="tg-yw4l" align="center" border="none"><canvas width="580" height="140" id="accZGraph"></canvas><br>AccZ</td>
-  </tr>
-  <tr>
-    <th class="tg-yw4l" colspan="2" align = "center">Barometer</th>
-  </tr>
-  <tr>
-    <td class="tg-yw4l" colspan="2" align = "center"><canvas width="1230" height="150" id="barGraph"></canvas></td>
-  </tr>
-  <tr>
-    <th class="tg-yw4l" colspan="2" align = "center">Temperature</th>
-  </tr>
-  <tr>
-    <td class="tg-yw4l" colspan="2"> <canvas width="1230" height="150" id="tempGraph"></canvas></td>
-  </tr>
+    <tr>
+        <th class="tg-yw4l">Magnetometer</th>
+        <th class="tg-yw4l">Accelerometer</th>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="140" id="magXGraph"></canvas>
+            <br>MagX
+        </td>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="140" id="accXGraph"></canvas>
+            <br>AccX
+        </td>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="140" id="magYGraph"></canvas>
+            <br>MagY
+        </td>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="150" id="accYGraph"></canvas>
+            <br>AccY
+        </td>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="140" id="magZGraph"></canvas>
+            <br>MagZ
+        </td>
+        <td class="tg-yw4l" align="center" border="none">
+            <canvas width="580" height="140" id="accZGraph"></canvas>
+            <br>AccZ
+        </td>
+    </tr>
+    <tr>
+        <th class="tg-yw4l" colspan="2" align="center">Barometer</th>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" colspan="2" align="center">
+            <canvas width="1230" height="150" id="barGraph"></canvas>
+        </td>
+    </tr>
+    <tr>
+        <th class="tg-yw4l" colspan="2" align="center">Temperature</th>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" colspan="2">
+            <canvas width="1230" height="150" id="tempGraph"></canvas>
+        </td>
+    </tr>
 </table>
-  
+
 <script>
 var magX = new TimeSeries();
 var magY = new TimeSeries();
 var magZ = new TimeSeries();
-var accX = new TimeSeries();
-var accY = new TimeSeries();
-var accZ = new TimeSeries();
-var bar = new TimeSeries();
-var temp = new TimeSeries();
-var time = new Date().getTime();
+    var accX = new TimeSeries();
+    var accY = new TimeSeries();
+    var accZ = new TimeSeries();
+    var bar = new TimeSeries();
+    var temp = new TimeSeries();
+    var time = new Date().getTime();
 
-var magXcenter = 388;
-var magYcenter = -40;
-var magZcenter = 875;
-var magOffset = 15;
+    var magXcenter = 388;
+    var magYcenter = -40;
+    var magZcenter = 875;
+    var magOffset = 15;
 
-var magXmin = magXcenter - magOffset;
-var magXmax = magXcenter + magOffset;
+    var magXmin = magXcenter - magOffset;
+    var magXmax = magXcenter + magOffset;
 
-var magYmin = magYcenter - magOffset;
-var magYmax = magYcenter + magOffset;
+    var magYmin = magYcenter - magOffset;
+    var magYmax = magYcenter + magOffset;
 
-var magZmin = magZcenter - magOffset-10; // seems to be a little more volatile
-var magZmax = magZcenter + magOffset+10;
-
+    var magZmin = magZcenter - magOffset - 10; // seems to be a little more volatile
+    var magZmax = magZcenter + magOffset + 10;
 
 var accXcenter = -50;
 var accYcenter = -20;
@@ -145,22 +205,24 @@ var accSpeed = 10;
        chartMagZ.streamTo(document.getElementById("magZGraph"), 1000);
    }
 
-   function createTimelineAccX() {
-       var chartAccX = new SmoothieChart({
-           maxValue : accXmax,
-           minValue : accXmin,
-           millisPerPixel: accSpeed,
-           labels:{disabled:false,
-		   			fillStyle: '#eef0f0'},
-           grid: {fillStyle: '#4072dc'},
-           timestampFormatter:SmoothieChart.timeFormatter
-       });
-
-       chartAccX.addTimeSeries(accX, {
-           strokeStyle: '#ff847d',
-           fillStyle: 'rgba(255,108,118,0.30)',
-           lineWidth: 1
-       });
+    function createTimelineAccX() {
+        var chartAccX = new SmoothieChart({
+        	 maxValue : accXmax,
+             minValue : accXmin,
+             millisPerPixel: accSpeed,
+             labels: {
+                disabled: false,
+                fillStyle: '#eef0f0'
+            },
+            grid: {fillStyle: '#4072dc'},
+            timestampFormatter: SmoothieChart.timeFormatter
+        });
+        
+        chartAccX.addTimeSeries(accX, {
+            strokeStyle: '#ff847d',
+            fillStyle: 'rgba(255,108,118,0.30)',
+            lineWidth: 1
+        });
 
        chartAccX.streamTo(document.getElementById("accXGraph"), 1000);
    }
@@ -194,84 +256,79 @@ var accSpeed = 10;
            timestampFormatter:SmoothieChart.timeFormatter
        });
 
-       chartAccZ.addTimeSeries(accZ, {
-           strokeStyle: '#7cff76',
-           fillStyle: 'rgba(230,224,46,0.30)',
-           lineWidth: 1
-       });
+        chartAccZ.addTimeSeries(accZ, {
+            strokeStyle: '#ff847d',
+            fillStyle: 'rgba(255,108,118,0.30)',
+            lineWidth: 1
+        });
 
-       chartAccZ.streamTo(document.getElementById("accZGraph"), 1000);
-   }
-	
-   function createTimelineBar() {
-       var chartBar = new SmoothieChart({
-	//	   maxValue : 1013,
-       //		   minValue : 985,
-           millisPerPixel: 100,
-           labels:{disabled:false},
-           grid: {fillStyle: '#7afdff'},
-           timestampFormatter:SmoothieChart.timeFormatter
-       });
+        chartAccZ.streamTo(document.getElementById("accZGraph"), 1000);
+    } 
 
-       chartBar.addTimeSeries(bar, {
-           strokeStyle: '#392637',
-           fillStyle: 'rgba(251, 154, 153, 0.2)',
-           lineWidth: 4
-       });
 
-       chartBar.streamTo(document.getElementById("barGraph"), 1000);
-   }
-   
-   function createTimelineTemp() {
-       var chartTemp = new SmoothieChart({
-           minValue: 17,
-    	   maxValueScale : 1.1,
-           minValueScale : 1.2,
-           millisPerPixel: 75,
-           labels:{disabled:false},
-           grid: {fillStyle: 'rgba(0,0,0,1.0)'},
-           timestampFormatter:SmoothieChart.timeFormatter
-       });
+    function createTimelineBar() {
+        var chartBar = new SmoothieChart({
+            //	   maxValue : 1013,
+            //		   minValue : 985,
+            millisPerPixel: 100,
+            labels: {disabled: false},
+            grid: {fillStyle: '#7afdff'},
+            timestampFormatter: SmoothieChart.timeFormatter
+        });
 
-       chartTemp.addTimeSeries(temp, {
-           strokeStyle: 'rgba(251, 154, 153, 1)',
-           fillStyle: 'rgba(251, 154, 153, 0.2)',
-           lineWidth: 4
-       });
+        chartBar.addTimeSeries(bar, {
+            strokeStyle: '#392637',
+            fillStyle: 'rgba(251, 154, 153, 0.2)',
+            lineWidth: 4
+        });
 
-       chartTemp.streamTo(document.getElementById("tempGraph"), 1000);
-   }
-   
-   createTimelineMagX();
-   createTimelineMagY();
-   createTimelineMagZ();
-   createTimelineAccX();
-   createTimelineAccY();
-   createTimelineAccZ();
-   createTimelineBar();
-   createTimelineTemp();
-   var socket = io('/');
-   socket.on('newdata', function (msg) {
-       var sample = JSON.parse(msg);
-       console.log(msg);
-    //setInterval(function() {
-  //    magX.append(new Date().getTime(), Math.random() * 10000);
-   //    magY.append(new Date().getTime(), Math.random() * 10000);
-    //   magZ.append(new Date().getTime(), Math.random() * 10000);
-	//   accX.append(new Date().getTime(), Math.random() * 10000);
-//	   accY.append(new Date().getTime(), Math.random() * 10000);
-	//   accZ.append(new Date().getTime(), Math.random() * 10000);
-    // }, 500);
-	
-       magX.append(new Date().getTime(), sample.magX);
-       magY.append(new Date().getTime(), sample.magY);
-       magZ.append(new Date().getTime(), sample.magZ);
-       accX.append(new Date().getTime(), sample.accX);
-       accY.append(new Date().getTime(), sample.accY);
-       accZ.append(new Date().getTime(), sample.accZ);
-       bar.append(new Date().getTime(), sample.hPa);
-       temp.append(new Date().getTime(), sample.temp);
-   });
+        chartBar.streamTo(document.getElementById("barGraph"), 1000);
+    }
+
+    function createTimelineTemp() {
+        var chartTemp = new SmoothieChart({
+            minValue: 17,
+            maxValueScale: 1.1,
+            minValueScale: 1.2,
+            millisPerPixel: 75,
+            labels: {disabled: false},
+            grid: {fillStyle: 'rgba(0,0,0,1.0)'},
+            timestampFormatter: SmoothieChart.timeFormatter
+        });
+
+        chartTemp.addTimeSeries(temp, {
+            strokeStyle: 'rgba(251, 154, 153, 1)',
+            fillStyle: 'rgba(251, 154, 153, 0.2)',
+            lineWidth: 4
+        });
+        chartTemp.streamTo(document.getElementById("tempGraph"), 1000);
+    }
+
+    createTimelineMagX();
+    createTimelineMagY();
+    createTimelineMagZ();
+    createTimelineAccX();
+    createTimelineAccY();
+    createTimelineAccZ();
+    createTimelineBar();
+    createTimelineTemp();
+    var socket = io('/');
+    
+    socket.on('newdata', function (msg) {
+        var sample = JSON.parse(msg);
+        console.log(msg);
+
+        
+        var now = new Date().getTime();
+        magX.append(now, sample.magX);
+        magY.append(now, sample.magY);
+        magZ.append(now, sample.magZ);
+        accX.append(now, sample.accX);
+        accY.append(now, sample.accY);
+        accZ.append(now, sample.accZ);
+        bar.append(now, sample.hPa);
+        temp.append(now, sample.temp);
+      });
 </script>
-  </body>
+</body>
 </html>
