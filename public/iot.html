@@ -24,7 +24,7 @@
     <th class="tg-yw4l">Accelerator</th>
   </tr>
   <tr>
-    <td class="tg-yw4l" align="center"><canvas width="500" height="150" id="magXGraph"></canvas></td>
+    <td class="tg-yw4l" align="center"><canvas width="600" height="150" id="magXGraph"></canvas></td>
     <td class="tg-yw4l" align="center"> <canvas width="600" height="150" id="accXGraph"></canvas></td>
   </tr>
   <tr>
@@ -64,8 +64,8 @@ var time = new Date().getTime();
        var chartMagX = new SmoothieChart({
     	   //maxValue : 410,
 	//	   minValue : 380,
-	   maxValueScale : 1.5,
-           minValueScale : 1.5,
+	   maxValueScale : 1.1,
+           minValueScale : 1.1,
            millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
@@ -123,7 +123,7 @@ var time = new Date().getTime();
            //minValue : -80,
 	       maxValueScale : 1.1,
            minValueScale : 1.1,
-           millisPerPixel: 10,
+           millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
@@ -144,7 +144,7 @@ var time = new Date().getTime();
            //minValue: -50,
 	       maxValueScale : 1.1,
            minValueScale : 1.1,
-           millisPerPixel: 10,
+           millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
@@ -163,7 +163,7 @@ var time = new Date().getTime();
            //minValue: 1325,
 	       maxValueScale : 1.1,
            minValueScale : 1.1,
-           millisPerPixel: 10,
+           millisPerPixel: 100,
            labels:{disabled:true},
            grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
