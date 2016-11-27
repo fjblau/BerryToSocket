@@ -4,6 +4,12 @@
     <title>Streaming Chart Example</title>
     <script src="/javascripts/smoothie.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    		var id = "";
+            function displayMyVar(targetElementId) {
+                document.getElementById("target").innerHTML = id;
+            }
+        </script>
     <style type="text/css">
         .tg {
             border-collapse: collapse;
@@ -49,12 +55,14 @@
         }
     </style>
 </head>
-<body>
+<body onload="displayMyVar('target');">
 <h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">Berry IMU Sensors - IoT Streaming Data
     Examples</h1>
 <iframe src="http://free.timeanddate.com/clock/i5h73bs5/n234/fc4072dc/ftb/bac4072dc/pd2/tt0/tw0/tm1/ta1/tb3"
         frameborder="0" width="248" height="20"></iframe>
-
+ 
+<br>
+<span id="target"></span>
 <br>
 <table class="tg" border-style="solid">
     <tr>
@@ -123,7 +131,7 @@ var magZ = new TimeSeries();
     var magXcenter = 388;
     var magYcenter = -40;
     var magZcenter = 875;
-    var magOffset = 15;
+    var magOffset = 10;
 
     var magXmin = magXcenter - magOffset;
     var magXmax = magXcenter + magOffset;
@@ -268,8 +276,8 @@ var accSpeed = 10;
 
     function createTimelineBar() {
         var chartBar = new SmoothieChart({
-            //	   maxValue : 1013,
-            //		   minValue : 985,
+            maxValue : 1005,
+            minValue : 985,
             millisPerPixel: 100,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
@@ -279,7 +287,7 @@ var accSpeed = 10;
         chartBar.addTimeSeries(bar, {
             strokeStyle: '#392637',
             fillStyle: 'rgba(251, 154, 153, 0.2)',
-            lineWidth: 4
+            lineWidth: 2
         });
 
         chartBar.streamTo(document.getElementById("barGraph"), 1000);
@@ -287,10 +295,9 @@ var accSpeed = 10;
 
     function createTimelineTemp() {
         var chartTemp = new SmoothieChart({
-            minValue: 17,
-            maxValueScale: 1.1,
-            minValueScale: 1.2,
-            millisPerPixel: 75,
+        	maxValue : 26,
+            minValue : 21,
+            millisPerPixel: 100,
             labels: {disabled: false},
             grid: {fillStyle: 'rgba(0,0,0,1.0)'},
             timestampFormatter: SmoothieChart.timeFormatter
@@ -299,7 +306,7 @@ var accSpeed = 10;
         chartTemp.addTimeSeries(temp, {
             strokeStyle: 'rgba(251, 154, 153, 1)',
             fillStyle: 'rgba(251, 154, 153, 0.2)',
-            lineWidth: 4
+            lineWidth: 2
         });
         chartTemp.streamTo(document.getElementById("tempGraph"), 1000);
     }
@@ -320,6 +327,7 @@ var accSpeed = 10;
 
         
         var now = new Date().getTime();
+        var id = sample.sensorId;
         magX.append(now, sample.magX);
         magY.append(now, sample.magY);
         magZ.append(now, sample.magZ);
