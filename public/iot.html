@@ -68,6 +68,7 @@ var time = new Date().getTime();
            minValueScale : 1.1,
            millisPerPixel: 75,
            labels:{disabled:true},
+	    grid: {fillStyle: '#3f3fff'},
            timestampFormatter:SmoothieChart.timeFormatter
        });
        chartMagX.addTimeSeries(magX, {
@@ -91,7 +92,7 @@ var time = new Date().getTime();
        });
        chartMagy.addTimeSeries(magY, {
            strokeStyle: '#f9ff61',
-           fillStyle: '#3f3fff',
+           fillStyle: '#f9ff61',
            lineWidth: 1
        });
        chartMagy.streamTo(document.getElementById("magYGraph"), 1000);
