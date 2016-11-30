@@ -128,9 +128,9 @@ var magZ = new TimeSeries();
     var temp = new TimeSeries();
     var time = new Date().getTime();
 
-    var magXcenter = 380;
-    var magYcenter = -80;
-    var magZcenter = 875;
+    var magXcenter = 402;
+    var magYcenter = -40;
+    var magZcenter = 860;
     var magOffset = 10;
 
     var magXmin = magXcenter - magOffset;
@@ -277,10 +277,10 @@ var accSpeed = 10;
     function createTimelineBar() {
         var chartBar = new SmoothieChart({
             //interpolation: 'linear',
-            maxValue : 995,
+            maxValue : 1010,
             minValue : 970,
             millisPerPixel: 3000,
-            millisPerLine:10000,
+            millisPerLine:6000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
@@ -297,10 +297,10 @@ var accSpeed = 10;
 
     function createTimelineTemp() {
         var chartTemp = new SmoothieChart({
-        	maxValue : 26,
+        	maxValue : 30,
             minValue : 21,
             millisPerPixel: 3000,
-            millisPerLine:10000,
+            millisPerLine:6000,
             labels: {disabled: false},
             grid: {fillStyle: 'rgba(0,0,0,1.0)'},
             timestampFormatter: SmoothieChart.timeFormatter
