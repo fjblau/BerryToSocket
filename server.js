@@ -10,6 +10,10 @@ io.on('connection', function(socket){
 	   //console.log('message: ' + msg);
 	   io.sockets.emit('newdata', msg);
 	 });
+	 socket.on('ecgIn', function(msg){
+	   //console.log('message: ' + msg);
+	   io.sockets.emit('ecgOut', msg);
+	 });
 	});
 
 setInterval(function() {
