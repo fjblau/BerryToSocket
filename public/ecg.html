@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Streaming Chart Example</title>
+    <script src="/javascripts/smoothie.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    		var id = "";
+            function displayMyVar(targetElementId) {
+                document.getElementById("target").innerHTML = id;
+            }
+        </script>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-left-style: solid;
+            border-right-style: solid;
+        }
+
+        .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 5px 5px;
+            border-style: solid;
+            border-width: 0px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg h1 {
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg .tg-yw4l {
+            vertical-align: top
+        }
+    </style>
+</head>
+<body onload="displayMyVar('target');">
+<h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">ECG Sensors - IoT Streaming Data
+    Examples</h1>
+<iframe src="http://free.timeanddate.com/clock/i5h73bs5/n234/fc4072dc/ftb/bac4072dc/pd2/tt0/tw0/tm1/ta1/tb3"
+        frameborder="0" width="248" height="20"></iframe>
+ 
+<br>
+<span id="target"></span>
+<br>
+<table class="tg" border-style="solid">
+    <tr>
+        <td class="tg-yw4l" colspan="2" align="center">
+            <canvas width="1230" height="300" id="ecgGraph"></canvas>
+        </td>
+    </tr>
+</table>
+
+<script>
+
+    var ecg = new TimeSeries();
+
+    function createTimelineEcg() {
+        var chartEcg = new SmoothieChart({
+        	maxValue : 4,
+            minValue : 1,
+            millisPerPixel: 5,
+            //millisPerLine:6000,
+            labels: {disabled: false},
+            grid: {fillStyle: '#7afdff'},
+            timestampFormatter: SmoothieChart.timeFormatter
+        });
+
+        chartEcg.addTimeSeries(ecg, {
+            strokeStyle: 'rgba(251, 154, 153, 1)',
+            fillStyle: 'rgba(251, 154, 153, 0.2)',
+            lineWidth: 2
+        });
+        chartEcg.streamTo(document.getElementById("ecgGraph"), 1000);
+    }
+
+    createTimelineEcg();
+    var socket = io('/');
+    
+    socket.on('ecgOut', function (msg) {
+        var sample = JSON.parse(msg);
+        console.log(msg);
+        var now = new Date().getTime();
+ 
+        ecg.append(now, sample.ecg);
+      });
+</script>
+</body>
+</html>
