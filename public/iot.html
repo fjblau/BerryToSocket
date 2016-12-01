@@ -157,7 +157,7 @@ var accZmin = accZcenter - accOffset; // seems to be a little more volatile
 var accZmax = accZcenter + accOffset;
 
 var magSpeed = 30;
-var accSpeed = 10;
+var accSpeed = 30;
 
    function createTimelineMagX() {
        var chartMagX = new SmoothieChart({
@@ -297,8 +297,8 @@ var accSpeed = 10;
 
     function createTimelineTemp() {
         var chartTemp = new SmoothieChart({
-        	maxValue : 30,
-            minValue : 21,
+        	maxValue : 26,
+            minValue : 16,
             millisPerPixel: 500,
             //millisPerLine:6000,
             labels: {disabled: false},
