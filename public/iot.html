@@ -265,8 +265,8 @@ var accSpeed = 10;
        });
 
         chartAccZ.addTimeSeries(accZ, {
-            strokeStyle: '#ff847d',
-            fillStyle: 'rgba(255,108,118,0.30)',
+        	strokeStyle: '#7cff76',
+            fillStyle: 'rgba(230,224,46,0.30)',
             lineWidth: 1
         });
 
@@ -279,7 +279,7 @@ var accSpeed = 10;
             //interpolation: 'linear',
             maxValue : 1010,
             minValue : 980,
-            millisPerPixel: 1000,
+            millisPerPixel: 500,
             //millisPerLine:6000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
@@ -299,10 +299,10 @@ var accSpeed = 10;
         var chartTemp = new SmoothieChart({
         	maxValue : 30,
             minValue : 21,
-            millisPerPixel: 1000,
+            millisPerPixel: 500,
             //millisPerLine:6000,
             labels: {disabled: false},
-            grid: {fillStyle: 'rgba(0,0,0,1.0)'},
+            grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
         });
 
