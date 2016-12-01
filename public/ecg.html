@@ -78,10 +78,10 @@
 
     function createTimelineEcg() {
         var chartEcg = new SmoothieChart({
-        	maxValue : 4,
-            minValue : 1,
+        	maxValue : 3.5,
+            minValue : 1.2,
             millisPerPixel: 5,
-            //millisPerLine:6000,
+            millisPerLine:3000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
