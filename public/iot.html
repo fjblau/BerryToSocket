@@ -129,8 +129,8 @@ var magZ = new TimeSeries();
     var time = new Date().getTime();
 
     var magXcenter = 330;
-    var magYcenter = -13;
-    var magZcenter = 910;
+    var magYcenter = 50;
+    var magZcenter = 835;
     var magOffset = 100;
 
     var magXmin = magXcenter - magOffset;
@@ -278,10 +278,13 @@ var accSpeed = 30;
         var chartBar = new SmoothieChart({
             //interpolation: 'linear',
             maxValue : 1010,
-            minValue : 980,
-            millisPerPixel: 500,
-            //millisPerLine:6000,
-            labels: {disabled: false},
+            minValue : 990,
+            //maxValueScale: 1.1,
+            //minValueScale: -1.1,
+            millisPerPixel: 50,
+            millisPerLine:0,
+            labels: {disabled: false,
+            fillStyle: '#16196b'},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
         });
@@ -298,10 +301,14 @@ var accSpeed = 30;
     function createTimelineTemp() {
         var chartTemp = new SmoothieChart({
         	maxValue : 26,
-            minValue : 16,
-            millisPerPixel: 500,
-            //millisPerLine:6000,
-            labels: {disabled: false},
+            minValue : 10,
+            interpolation: 'bezier',
+            maxValueScale: 1.1,
+            minValueScale: -1.1,
+            millisPerPixel: 50,
+            millisPerLine:0,
+            labels: {disabled: false,
+            fillStyle: '#16196b'},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
         });

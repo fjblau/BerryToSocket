@@ -75,13 +75,15 @@
 <script>
 
     var ecg = new TimeSeries();
-
+    var ecgAvg = new TimeSeries();
+    
     function createTimelineEcg() {
         var chartEcg = new SmoothieChart({
-        	maxValue : 3.5,
-            minValue : 1.2,
-            millisPerPixel: 5,
-            millisPerLine:3000,
+        	maxValue : 5,
+            minValue : 1,
+            millisPerPixel: 6,
+            interpolation:'linear',
+            //millisPerLine:300,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
@@ -90,8 +92,14 @@
         chartEcg.addTimeSeries(ecg, {
             strokeStyle: 'rgba(251, 154, 153, 1)',
             fillStyle: 'rgba(251, 154, 153, 0.2)',
-            lineWidth: 2
+            lineWidth: 1
         });
+        
+       // chartEcg.addTimeSeries(ecgAvg, {
+       //     strokeStyle: '00ff00',
+       //     fillStyle: 'rgba(251, 154, 153, 0.2)',
+       //     lineWidth: 1
+      //  });
         chartEcg.streamTo(document.getElementById("ecgGraph"), 1000);
     }
 
@@ -104,6 +112,7 @@
         var now = new Date().getTime();
  
         ecg.append(now, sample.ecg);
+        //ecgAvg.append(now, sample.ecgAvg);
       });
 </script>
 </body>
