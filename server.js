@@ -14,6 +14,10 @@ io.on('connection', function(socket){
 	   //console.log('message: ' + msg);
 	   io.sockets.emit('ecgOut', msg);
 	 });
+	 socket.on('strainIn', function(msg){
+	   //console.log('message: ' + msg);
+	   io.sockets.emit('strainOut', msg);
+	 });
 	});
 
 setInterval(function() {
