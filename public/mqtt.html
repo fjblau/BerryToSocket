@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Streaming Chart Example</title>
+    <title>Strain Gauge Chart Example</title>
     <script src="/javascripts/smoothie.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
@@ -56,7 +56,7 @@
     </style>
 </head>
 <body onload="displayMyVar('target');">
-<h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">ECG Sensors - IoT Streaming Data
+<h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;">MQTT Sensors - IoT Streaming Data
     Examples</h1>
 <iframe src="http://free.timeanddate.com/clock/i5h73bs5/n234/fc4072dc/ftb/bac4072dc/pd2/tt0/tw0/tm1/ta1/tb3"
         frameborder="0" width="248" height="20"></iframe>
@@ -67,52 +67,75 @@
 <table class="tg" border-style="solid">
     <tr>
         <td class="tg-yw4l" colspan="2" align="center">
-            <canvas width="1230" height="300" id="ecgGraph"></canvas>
+            <canvas width="1230" height="300" id="mqttGraph"></canvas>
+        </td>
+    </tr>
+    <tr>
+        <td class="tg-yw4l" colspan="2" align="center">
+            <canvas width="1230" height="300" id="mqttHumGraph"></canvas>
         </td>
     </tr>
 </table>
 
 <script>
 
-    var ecg = new TimeSeries();
-    var ecgAvg = new TimeSeries();
+    var mqtt = new TimeSeries();
+    var mqttHum = new TimeSeries();
     
-    function createTimelineEcg() {
-        var chartEcg = new SmoothieChart({
-        	maxValue : 3.5,
-            minValue : 1,
-            millisPerPixel: 6,
+    function createTimelinemqtt() {
+        var chartmqtt = new SmoothieChart({
+        	maxValue : 30,
+            minValue : 18,
+            millisPerPixel: 30,
             interpolation:'bezier',
-            //millisPerLine:300,
+            millisPerLine:500,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
         });
 
-        chartEcg.addTimeSeries(ecg, {
+        chartmqtt.addTimeSeries(mqtt, {
             strokeStyle: 'rgba(251, 154, 153, 1)',
             fillStyle: 'rgba(251, 154, 153, 0.2)',
             lineWidth: 1
         });
         
-       // chartEcg.addTimeSeries(ecgAvg, {
-       //     strokeStyle: '00ff00',
-       //     fillStyle: 'rgba(251, 154, 153, 0.2)',
-       //     lineWidth: 1
-      //  });
-        chartEcg.streamTo(document.getElementById("ecgGraph"), 1000);
+        chartmqtt.streamTo(document.getElementById("mqttGraph"), 1000);
     }
 
-    createTimelineEcg();
-    var socket = io('/');
+    function createTimelinemqttHum() {
+        var chartmqttHum = new SmoothieChart({
+        	maxValue : 100,
+            minValue : 20,
+            millisPerPixel: 30,
+            interpolation:'bezier',
+            millisPerLine:500,
+            labels: {disabled: false},
+            grid: {fillStyle: '#7afdff'},
+            timestampFormatter: SmoothieChart.timeFormatter
+        });
+
+        chartmqttHum.addTimeSeries(mqttHum, {
+            strokeStyle: 'rgba(251, 154, 153, 1)',
+            fillStyle: 'rgba(251, 154, 153, 0.2)',
+            lineWidth: 1
+        });
+        
+        chartmqttHum.streamTo(document.getElementById("mqttHumGraph"), 1000);
+    }
     
-    socket.on('ecgOut', function (msg) {
+    createTimelinemqtt();
+    createTimelinemqttHum();
+    var socket = io('/');
+   
+    socket.on('mqtt', function (msg) {
         var sample = JSON.parse(msg);
         console.log(msg);
         var now = new Date().getTime();
  
-        ecg.append(now, sample.ecg);
-        //ecgAvg.append(now, sample.ecgAvg);
+        mqtt.append(now, sample.tempC);
+        mqttHum.append(now, sample.hum);
+        
       });
 </script>
 </body>

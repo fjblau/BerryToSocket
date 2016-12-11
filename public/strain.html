@@ -79,11 +79,11 @@
     
     function createTimelineEcg() {
         var chartEcg = new SmoothieChart({
-        	maxValue : 2.4,
-            minValue : 0,
-            millisPerPixel: 10,
+        	maxValue : .1,
+            minValue : -.01,
+            millisPerPixel: 4,
             interpolation:'bezier',
-            //millisPerLine:300,
+            millisPerLine:10000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
@@ -105,13 +105,13 @@
 
     createTimelineEcg();
     var socket = io('/');
-    
+   
     socket.on('strainOut', function (msg) {
         var sample = JSON.parse(msg);
         console.log(msg);
         var now = new Date().getTime();
  
-        ecg.append(now, sample.value*-1);
+        ecg.append(now, -1*sample.value);
       });
 </script>
 </body>
