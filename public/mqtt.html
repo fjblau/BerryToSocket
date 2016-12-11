@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Strain Gauge Chart Example</title>
+    <title>MQTT-Arduino Chart Example</title>
     <script src="/javascripts/smoothie.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
@@ -84,9 +84,9 @@
     
     function createTimelinemqtt() {
         var chartmqtt = new SmoothieChart({
-        	maxValue : 30,
-            minValue : 18,
-            millisPerPixel: 30,
+        	maxValue : 25,
+            minValue : -5,
+            millisPerPixel: 40,
             interpolation:'bezier',
             millisPerLine:500,
             labels: {disabled: false},
@@ -105,9 +105,9 @@
 
     function createTimelinemqttHum() {
         var chartmqttHum = new SmoothieChart({
-        	maxValue : 100,
+        	maxValue : 60,
             minValue : 20,
-            millisPerPixel: 30,
+            millisPerPixel: 40,
             interpolation:'bezier',
             millisPerLine:500,
             labels: {disabled: false},
@@ -130,7 +130,7 @@
    
     socket.on('mqtt', function (msg) {
         var sample = JSON.parse(msg);
-        console.log(msg);
+        //console.log(msg);
         var now = new Date().getTime();
  
         mqtt.append(now, sample.tempC);
