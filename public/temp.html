@@ -35,6 +35,7 @@
 			// Connection succeeded; subscribe to our topic
 			client.subscribe("/sensor/json/", {qos: 0});
 			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
+			humGauge.setLedColor(steelseries.LedColor.GREEN_LED); 
 		},
 		onFailure: function (message) {
 			alert("Connection failed: " + message.errorMessage);
