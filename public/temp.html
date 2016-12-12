@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <script src="/javascripts/vendor/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="/javascripts/vendor/tween-min.js" type="text/javascript"></script>
+    <script src="/javascripts/vendor/steelseries-min.js" type="text/javascript"></script>
+    <title>Temp</title>
+    <script type="text/javascript">
+	var tempGauge;
+	var humGauge;
+	var wsbroker = "ec2-54-173-2-135.compute-1.amazonaws.com";  //mqtt websocket enabled broker
+    var wsport = 8000 // port for above
+  
+    var client = new Paho.MQTT.Client(wsbroker, wsport,"pi002");
+    console.log("Started");
+	client.onConnectionLost = function (responseObject) {
+		console.log("connection lost: " + responseObject.errorMessage);
+		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+	};
+	client.onMessageArrived = function (message) {
+		console.log("onMessageArrived:"+message.payloadString);
+		tempGauge.setValue(message.payloadString);
+	};
+	var options = {
+		timeout: 3,
+		onSuccess: function () {
+			//alert("Connected");
+			// Connection succeeded; subscribe to our topic
+			client.subscribe("/sensor/tempC/", {qos: 0});
+			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
+		},
+		onFailure: function (message) {
+			alert("Connection failed: " + message.errorMessage);
+			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+		}
+	};
+	
+	var humclient = new Paho.MQTT.Client(wsbroker, wsport,"pi002-Hum");
+    console.log("Hum Started");
+	humclient.onConnectionLost = function (responseObject) {
+		console.log("hum connection lost: " + responseObject.errorMessage);
+		humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+	};
+	humclient.onMessageArrived = function (message) {
+		console.log("Hum onMessageArrived:"+message.payloadString);
+		humGauge.setValue(message.payloadString);
+	};
+	var options = {
+		timeout: 3,
+		onSuccess: function () {
+			//alert("Connected");
+			// Connection succeeded; subscribe to our topic
+			humclient.subscribe("/sensor/h/", {qos: 0});
+			humGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
+		},
+		onFailure: function (message) {
+			alert("Connection failed: " + message.errorMessage);
+			humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+		}
+	};
+	
+	
+	function init() {
+	    // by @jpmens, Sep 2013
+	    // from @bordignons Sep 2013
+	    // original idea.. http://www.desert-home.com/2013/06/how-to-use-steelseries-gauges-with.html
+	    // with help.. http://harmoniccode.blogspot.com.au/
+	    // and code.. https://github.com/HanSolo/SteelSeries-Canvas
+		tempGauge = new steelseries.Radial('gaugeCanvas', {
+			gaugeType: steelseries.GaugeType.TYPE4,
+			minValue:-5,
+			maxValue:50,
+			size: 400,
+			frameDesign: steelseries.FrameDesign.STEEL,
+			knobStyle: steelseries.KnobStyle.STEEL,
+			pointerType: steelseries.PointerType.TYPE6,
+			lcdDecimals: 0,
+			section: null,
+			area: null,
+			titleString: 'Temperature',
+			unitString: 'C',
+			threshold: 100,
+			lcdVisible: true,
+			lcdDecimals: 2
+		   });
+		tempGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
+		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		
+		humGauge = new steelseries.Radial('humCanvas', {
+			gaugeType: steelseries.GaugeType.TYPE4,
+			minValue:10,
+			maxValue:100,
+			size: 400,
+			frameDesign: steelseries.FrameDesign.STEEL,
+			knobStyle: steelseries.KnobStyle.STEEL,
+			pointerType: steelseries.PointerType.TYPE6,
+			lcdDecimals: 0,
+			section: null,
+			area: null,
+			titleString: 'Humidity',
+			unitString: '%',
+			threshold: 100,
+			lcdVisible: true,
+			lcdDecimals: 2
+		   });
+		humGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
+		humGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		
+		
+		/* Connect to MQTT broker */
+		client.connect(options);
+		humclient.connect(options);
+	}
+    </script>
+  </head>
+  <body onload="init();">
+       <div>
+       <canvas id=gaugeCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       <canvas id=humCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       </div>
+  </body>
+</html>

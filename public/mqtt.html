@@ -86,9 +86,9 @@
         var chartmqtt = new SmoothieChart({
         	maxValue : 25,
             minValue : -5,
-            millisPerPixel: 40,
+            millisPerPixel: 100,
             interpolation:'bezier',
-            millisPerLine:500,
+            millisPerLine:50000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
@@ -105,11 +105,11 @@
 
     function createTimelinemqttHum() {
         var chartmqttHum = new SmoothieChart({
-        	maxValue : 60,
+        	maxValue : 100,
             minValue : 20,
-            millisPerPixel: 40,
+            millisPerPixel: 100,
             interpolation:'bezier',
-            millisPerLine:500,
+            millisPerLine:50000,
             labels: {disabled: false},
             grid: {fillStyle: '#7afdff'},
             timestampFormatter: SmoothieChart.timeFormatter
