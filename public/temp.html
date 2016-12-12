@@ -15,31 +15,58 @@
     var wsport = 8000 // port for above
   
     var client = new Paho.MQTT.Client(wsbroker, wsport,"pi002"+parseInt(Math.random() * 100, 10));
-    console.log("Started");
+    var client2 = new Paho.MQTT.Client(wsbroker, wsport,"pi002"+parseInt(Math.random() * 100, 10));
+    
 	client.onConnectionLost = function (responseObject) {
 		console.log("connection lost: " + responseObject.errorMessage);
 		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+		humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
 	};
 	client.onMessageArrived = function (message) {
 		console.log("onMessageArrived:"+message.payloadString);
 		var json = message.payloadString,
 		obj = JSON.parse(json);
-		
 		tempGauge.setValue(obj.tempC);
 		humGauge.setValue(obj.hum)
 	};
 	var options = {
 		timeout: 3,
 		onSuccess: function () {
-			//alert("Connected");
-			// Connection succeeded; subscribe to our topic
 			client.subscribe("/sensor/json/", {qos: 0});
 			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
 			humGauge.setLedColor(steelseries.LedColor.GREEN_LED); 
 		},
 		onFailure: function (message) {
 			alert("Connection failed: " + message.errorMessage);
-			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection
+			humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+		}
+	};
+	
+	client2.onConnectionLost = function (responseObject) {
+		console.log("connection lost: " + responseObject.errorMessage);
+		tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+		barGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
+	};
+	client2.onMessageArrived = function (message) {
+		console.log("onMessageArrived:"+message.payloadString);
+		var json = message.payloadString,
+		obj = JSON.parse(json);
+		tempInGauge.setValue(obj.temp);
+		barGauge.setValue(obj.hPa);
+		
+	};
+	var options2 = {
+		timeout: 3,
+		onSuccess: function () {
+			client2.subscribe("/sensorIn/json/", {qos: 0});
+			tempInGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
+			barGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
+		},
+		onFailure: function (message) {
+			alert("Connection failed: " + message.errorMessage);
+			tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection
+			barGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
 		}
 	};
 	
@@ -53,14 +80,14 @@
 			gaugeType: steelseries.GaugeType.TYPE4,
 			minValue:-5,
 			maxValue:50,
-			size: 400,
+			size: 300,
 			frameDesign: steelseries.FrameDesign.STEEL,
 			knobStyle: steelseries.KnobStyle.STEEL,
 			pointerType: steelseries.PointerType.TYPE6,
 			lcdDecimals: 0,
 			section: null,
 			area: null,
-			titleString: 'Temperature',
+			titleString: 'Temp Out',
 			unitString: 'C',
 			threshold: 100,
 			lcdVisible: true,
@@ -69,11 +96,32 @@
 		tempGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
 		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
+		tempInGauge = new steelseries.Radial('tempInCanvas', {
+			gaugeType: steelseries.GaugeType.TYPE4,
+			minValue:-5,
+			maxValue:50,
+			size: 300,
+			frameDesign: steelseries.FrameDesign.STEEL,
+			knobStyle: steelseries.KnobStyle.STEEL,
+			pointerType: steelseries.PointerType.TYPE6,
+			lcdDecimals: 0,
+			section: null,
+			area: null,
+			titleString: 'Temp In',
+			unitString: 'C',
+			threshold: 100,
+			lcdVisible: true,
+			lcdDecimals: 2
+		   });
+		tempInGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
+		tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		
+		
 		humGauge = new steelseries.Radial('humCanvas', {
 			gaugeType: steelseries.GaugeType.TYPE4,
 			minValue:10,
 			maxValue:100,
-			size: 400,
+			size: 300,
 			frameDesign: steelseries.FrameDesign.STEEL,
 			knobStyle: steelseries.KnobStyle.STEEL,
 			pointerType: steelseries.PointerType.TYPE6,
@@ -89,9 +137,29 @@
 		humGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
 		humGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
+		barGauge = new steelseries.Radial('barCanvas', {
+			gaugeType: steelseries.GaugeType.TYPE4,
+			minValue:980,
+			maxValue:1020,
+			size: 300,
+			frameDesign: steelseries.FrameDesign.STEEL,
+			knobStyle: steelseries.KnobStyle.STEEL,
+			pointerType: steelseries.PointerType.TYPE6,
+			lcdDecimals: 0,
+			section: null,
+			area: null,
+			titleString: 'Barometer',
+			unitString: 'hPa',
+			threshold: 1020,
+			lcdVisible: true,
+			lcdDecimals: 2
+		   });
+		barGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
+		barGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
 		/* Connect to MQTT broker */
 		client.connect(options);
+		client2.connect(options2);
 		
 	}
     </script>
@@ -99,7 +167,9 @@
   <body onload="init();">
        <div>
        <canvas id=gaugeCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       <canvas id=tempInCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=humCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       <canvas id=barCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        </div>
   </body>
 </html>
