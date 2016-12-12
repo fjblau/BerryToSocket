@@ -22,14 +22,18 @@
 	};
 	client.onMessageArrived = function (message) {
 		console.log("onMessageArrived:"+message.payloadString);
-		tempGauge.setValue(message.payloadString);
+		var json = message.payloadString,
+		obj = JSON.parse(json);
+		
+		tempGauge.setValue(obj.tempC);
+		humGauge.setValue(obj.hum)
 	};
 	var options = {
 		timeout: 3,
 		onSuccess: function () {
 			//alert("Connected");
 			// Connection succeeded; subscribe to our topic
-			client.subscribe("/sensor/tempC/", {qos: 0});
+			client.subscribe("/sensor/json/", {qos: 0});
 			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
 		},
 		onFailure: function (message) {
@@ -37,31 +41,6 @@
 			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
 		}
 	};
-	
-	var humclient = new Paho.MQTT.Client(wsbroker, wsport,"pi002-Hum");
-    console.log("Hum Started");
-	humclient.onConnectionLost = function (responseObject) {
-		console.log("hum connection lost: " + responseObject.errorMessage);
-		humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-	};
-	humclient.onMessageArrived = function (message) {
-		console.log("Hum onMessageArrived:"+message.payloadString);
-		humGauge.setValue(message.payloadString);
-	};
-	var options = {
-		timeout: 3,
-		onSuccess: function () {
-			//alert("Connected");
-			// Connection succeeded; subscribe to our topic
-			humclient.subscribe("/sensor/h/", {qos: 0});
-			humGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
-		},
-		onFailure: function (message) {
-			alert("Connection failed: " + message.errorMessage);
-			humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-		}
-	};
-	
 	
 	function init() {
 	    // by @jpmens, Sep 2013
@@ -112,7 +91,7 @@
 		
 		/* Connect to MQTT broker */
 		client.connect(options);
-		humclient.connect(options);
+		
 	}
     </script>
   </head>
