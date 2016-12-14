@@ -18,6 +18,8 @@
         var arduino = JSON.parse(msg);
         tempGauge.setValue(arduino.tempC);
 		humGauge.setValue(arduino.hum)
+		if arduino.tempC < 0:
+			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 	 });
 	
 	socket.on('newdata', function (msg2) {
@@ -46,7 +48,7 @@
 			lcdDecimals: 1
 		   });
 		
-		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
 		tempInGauge = new steelseries.Radial('tempInCanvas', {
 			gaugeType: steelseries.GaugeType.TYPE4,
@@ -65,7 +67,7 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		tempInGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
 		
 		humGauge = new steelseries.Radial('humCanvas', {
@@ -85,7 +87,7 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		humGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		humGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
 		barGauge = new steelseries.Radial('barCanvas', {
 			gaugeType: steelseries.GaugeType.TYPE4,
@@ -104,7 +106,7 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		barGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
+		barGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
 	}
 </script>
