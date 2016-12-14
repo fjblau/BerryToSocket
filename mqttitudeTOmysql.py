@@ -6,27 +6,19 @@
 # This is designed for the http://mqttitude.org/ project backend
 #
 
-import MySQLdb
+from crate import client
 import mosquitto
 import json
 import time
 
-#mosquitto broker config
-broker = 'mqtt.localdomain'
+broker = '54.173.2.135'
 broker_port = 1883
-broker_topic = '/test/location/#'
-#broker_clientid = 'mqttuide2mysqlScript'
-#mysql config
-mysql_server = 'thebeast.localdomain'
-mysql_username = 'root'
-mysql_passwd = ''
-mysql_db = 'mqtt'
-#change table below.
+broker_topic = '/sensorIn/json/'
 
-# Open database connection
-db = MySQLdb.connect(mysql_server, mysql_username, mysql_passwd, mysql_db)
-# prepare a cursor object using cursor() method
-cursor = db.cursor()
+from crate import client
+connection = client.connect('http://http://54.84.225.193:4200/')
+#connection = client.connect('http://192.168.1.132:32769')
+cursor = connection.cursor()
 
 def on_connect(mosq, obj, rc):
     print("rc: "+str(rc))
@@ -74,15 +66,6 @@ def on_message(mosq, obj, msg):
        queryArgs = (keys_to_sql, tuple(vars_to_sql))
        cursor.execute(queryText % queryArgs)
        print('Successfully Added record to mysql')
-       db.commit()
-    except MySQLdb.Error, e:
-        try:
-            print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-        except IndexError:
-            print "MySQL Error: %s" % str(e)
-        # Rollback in case there is any error
-        db.rollback()
-        print('ERROR adding record to MYSQL')
 
 def on_publish(mosq, obj, mid):
     print("mid: "+str(mid))
@@ -116,4 +99,3 @@ print("rc: "+str(rc))
 
 # disconnect from server
 print ('Disconnected, done.')
-db.close()
