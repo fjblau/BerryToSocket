@@ -18,9 +18,7 @@
         var arduino = JSON.parse(msg);
         tempGauge.setValue(arduino.tempC);
 		humGauge.setValue(arduino.hum)
-		if arduino.tempC < 0:
-			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
-	 });
+			 });
 	
 	socket.on('newdata', function (msg2) {
         var berry = JSON.parse(msg2);
