@@ -4,79 +4,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <script src="/javascripts/vendor/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script src="/javascripts/vendor/tween-min.js" type="text/javascript"></script>
     <script src="/javascripts/vendor/steelseries-min.js" type="text/javascript"></script>
     <script src="/socket.io/socket.io.js"></script>
     <title>Temp</title>
-    <script type="text/javascript">
+    <script>
 	var tempGauge;
 	var humGauge;
-	var wsbroker = "ec2-54-173-2-135.compute-1.amazonaws.com";  //mqtt websocket enabled broker
-    var wsport = 8000 // port for above
-
-    var client = new Paho.MQTT.Client(wsbroker, wsport,"pi002"+parseInt(Math.random() * 100, 10));
-    var client2 = new Paho.MQTT.Client(wsbroker, wsport,"pi002"+parseInt(Math.random() * 100, 10));
-    
-	client.onConnectionLost = function (responseObject) {
-		console.log("connection lost: " + responseObject.errorMessage);
-		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-		humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-	};
-	client.onMessageArrived = function (message) {
-		console.log("onMessageArrived:"+message.payloadString);
-		var json = message.payloadString,
-		obj = JSON.parse(json);
-		tempGauge.setValue(obj.tempC);
-		humGauge.setValue(obj.hum)
-	};
-	var options = {
-		timeout: 3,
-		onSuccess: function () {
-			client.subscribe("/sensor/json/", {qos: 0});
-			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
-			humGauge.setLedColor(steelseries.LedColor.GREEN_LED); 
-		},
-		onFailure: function (message) {
-			alert("Connection failed: " + message.errorMessage);
-			tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection
-			humGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-		}
-	};
+	var socket = io('/');
 	
-	client2.onConnectionLost = function (responseObject) {
-		console.log("connection lost: " + responseObject.errorMessage);
-		tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-		barGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-	};
-	client2.onMessageArrived = function (message) {
-		console.log("onMessageArrived:"+message.payloadString);
-		var json = message.payloadString,
-		obj = JSON.parse(json);
-		tempInGauge.setValue(obj.temp);
-		barGauge.setValue(obj.hPa);
-		
-	};
-	var options2 = {
-		timeout: 3,
-		onSuccess: function () {
-			client2.subscribe("/sensorIn/json/", {qos: 0});
-			tempInGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
-			barGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
-		},
-		onFailure: function (message) {
-			alert("Connection failed: " + message.errorMessage);
-			tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection
-			barGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
-		}
-	};
+	socket.on('mqttOut', function (msg) {
+		console.log("Arduino:" + msg);
+        var arduino = JSON.parse(msg);
+        tempGauge.setValue(arduino.tempC);
+		humGauge.setValue(arduino.hum)
+	 });
+	
+	socket.on('newdata', function (msg2) {
+        var berry = JSON.parse(msg2);
+        //console.log("Berry:" + msg2);
+        tempInGauge.setValue(berry.temp);
+        barGauge.setValue(berry.hPa)
+	 });
 	
 	function init() {
-	    // by @jpmens, Sep 2013
-	    // from @bordignons Sep 2013
-	    // original idea.. http://www.desert-home.com/2013/06/how-to-use-steelseries-gauges-with.html
-	    // with help.. http://harmoniccode.blogspot.com.au/
-	    // and code.. https://github.com/HanSolo/SteelSeries-Canvas
 		tempGauge = new steelseries.Radial('gaugeCanvas', {
 			gaugeType: steelseries.GaugeType.TYPE4,
 			minValue:-5,
@@ -94,7 +45,7 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		tempGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
+		
 		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
 		tempInGauge = new steelseries.Radial('tempInCanvas', {
@@ -114,7 +65,6 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		tempInGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
 		tempInGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
 		
@@ -135,7 +85,6 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		humGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
 		humGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
 		barGauge = new steelseries.Radial('barCanvas', {
@@ -155,15 +104,10 @@
 			lcdVisible: true,
 			lcdDecimals: 1
 		   });
-		barGauge.setValue('0'); //gives a blank display 'NaN' until broker has connected
 		barGauge.setLedColor(steelseries.LedColor.RED_LED); //set the LED RED until connected
 		
-		/* Connect to MQTT broker */
-		client.connect(options);
-		client2.connect(options2);
-		
 	}
-    </script>
+</script>
     <script type="text/javascript">
 tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
 tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");

@@ -25,19 +25,18 @@ io.on('connection', function(socket){
 	});
 
 client.on('connect', function () {
-  client.subscribe('/sensor/#');
+  client.subscribe('/sensor/json/');
   client.publish('/sensor/status/', 'Start');
 });
+
 client.on('message', function (topic, message) {
-  // message is Buffer
-  //console.log(message.toString());
-  io.sockets.emit('mqtt',message.toString());
+  console.log("Message:"+message);
+  message = message.toString();
+  io.sockets.emit('mqttOut',message.trim());
 });
 
 client.addListener('/sensor/json/', function(topic, payload){
-  sys.puts(topic+'='+payload);
-  io.sockets.emit('mqtt',{'topic':String(topic),
-    'payload':String(payload)});
+  console.log(topic+'='+payload);
 });
 
 setInterval(function() {
