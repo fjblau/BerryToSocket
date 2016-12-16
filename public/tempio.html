@@ -14,7 +14,7 @@
 	var socket = io('/');
 	
 	socket.on('mqttOut', function (msg) {
-		console.log("Arduino:" + msg);
+		//console.log("Arduino:" + msg);
         var arduino = JSON.parse(msg);
         tempGauge.setValue(arduino.tempC);
 		humGauge.setValue(arduino.hum)
@@ -25,6 +25,12 @@
         //console.log("Berry:" + msg2);
         tempInGauge.setValue(berry.temp);
         barGauge.setValue(berry.hPa)
+	 });
+	
+	socket.on('strainOut', function (msg3) {
+        var strain = JSON.parse(msg3);
+        console.log("Strain:" + msg3);
+        strainGauge.setValue(Math.abs(strain.value)*475)
 	 });
 	
 	function init() {
@@ -106,9 +112,29 @@
 		   });
 		barGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
+		strainGauge = new steelseries.Radial('strainCanvas', {
+			gaugeType: steelseries.GaugeType.TYPE4,
+			minValue:0,
+			maxValue:50,
+			size: 200,
+			frameDesign: steelseries.FrameDesign.STEEL,
+			knobStyle: steelseries.KnobStyle.STEEL,
+			pointerType: steelseries.PointerType.TYPE6,
+			lcdDecimals: 4,
+			section: null,
+			area: null,
+			titleString: 'Weight',
+			unitString: 'g',
+			threshold: 5,
+			lcdVisible: true,
+			lcdDecimals: 1
+		   });
+		strainGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
+		
+		
 	}
 </script>
-    <script type="text/javascript">
+<script type="text/javascript">
 tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
 tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 
@@ -151,6 +177,7 @@ body {
        <canvas id=tempInCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=humCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=barCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+        <canvas id=strainCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        </div>
   </body>
 </html>
