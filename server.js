@@ -30,13 +30,13 @@ client.on('connect', function () {
 });
 
 client.on('message', function (topic, message) {
-  console.log("Message:"+message);
+  //console.log("Message:"+message);
   message = message.toString();
   io.sockets.emit('mqttOut',message.trim());
 });
 
 client.addListener('/sensor/json/', function(topic, payload){
-  console.log(topic+'='+payload);
+  //console.log(topic+'='+payload);
 });
 
 setInterval(function() {

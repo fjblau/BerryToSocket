@@ -30,7 +30,11 @@
 	socket.on('strainOut', function (msg3) {
         var strain = JSON.parse(msg3);
         console.log("Strain:" + msg3);
-        strainGauge.setValue(Math.abs(strain.value)*475)
+        if (Math.abs(strain.value) < .
+        		008) {
+        	strainGauge.setValue(0) }
+        else {
+        	strainGauge.setValue(Math.abs(strain.value)*535)}
 	 });
 	
 	function init() {
@@ -114,20 +118,19 @@
 		
 		strainGauge = new steelseries.Radial('strainCanvas', {
 			gaugeType: steelseries.GaugeType.TYPE4,
-			minValue:0,
+			minValue:1,
 			maxValue:50,
 			size: 200,
 			frameDesign: steelseries.FrameDesign.STEEL,
 			knobStyle: steelseries.KnobStyle.STEEL,
 			pointerType: steelseries.PointerType.TYPE6,
-			lcdDecimals: 4,
+			lcdDecimals: 2,
 			section: null,
 			area: null,
 			titleString: 'Weight',
 			unitString: 'g',
 			threshold: 5,
-			lcdVisible: true,
-			lcdDecimals: 1
+			lcdVisible: true
 		   });
 		strainGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
