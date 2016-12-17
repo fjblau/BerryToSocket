@@ -30,8 +30,7 @@
 	socket.on('strainOut', function (msg3) {
         var strain = JSON.parse(msg3);
         console.log("Strain:" + msg3);
-        if (Math.abs(strain.value) < .
-        		008) {
+        if (Math.abs(strain.value) < .008) {
         	strainGauge.setValue(0) }
         else {
         	strainGauge.setValue(Math.abs(strain.value)*535)}
