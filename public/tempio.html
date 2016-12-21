@@ -7,11 +7,14 @@
     <script src="/javascripts/vendor/tween-min.js" type="text/javascript"></script>
     <script src="/javascripts/vendor/steelseries-min.js" type="text/javascript"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/javascripts/jscharts.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <title>Temp</title>
     <script>
 	var tempGauge;
 	var humGauge;
 	var socket = io('/');
+	var myData = [];
 	
 	socket.on('mqttOut', function (msg) {
 		//console.log("Arduino:" + msg);
@@ -22,19 +25,39 @@
 	
 	socket.on('newdata', function (msg2) {
         var berry = JSON.parse(msg2);
-        //console.log("Berry:" + msg2);
+        console.log("Berry:" + msg2);
         tempInGauge.setValue(berry.temp);
         barGauge.setValue(berry.hPa)
 	 });
 	
 	socket.on('strainOut', function (msg3) {
         var strain = JSON.parse(msg3);
-        console.log("Strain:" + msg3);
+        //console.log("Strain:" + msg3);
         if (Math.abs(strain.value) < .008) {
         	strainGauge.setValue(0) }
         else {
         	strainGauge.setValue(Math.abs(strain.value)*535)}
 	 });
+	
+	socket.on('crateSumOut', function (msg4) {
+	    myData = msg4;
+	    myData.splice(0,0,['Min', 'Bar'])
+	    var data = google.visualization.arrayToDataTable(myData);
+	        console.log(data);
+	        var options = {
+	          title: 'Barometer',
+	          backgroundColor: '#A5A0A0',
+	          curveType: 'function',
+	          legend: { position: 'bottom' },
+	          hAxis: {textPosition: 'none'}
+	        };
+
+	        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+	        chart.draw(data, options);
+	    //console.log(myData);
+		
+	});
 	
 	function init() {
 		tempGauge = new steelseries.Radial('gaugeCanvas', {
@@ -133,6 +156,23 @@
 		   });
 		strainGauge.setLedColor(steelseries.LedColor.GREEN_LED); //set the LED RED until connected
 		
+		google.charts.load('current', {'packages':['corechart']});
+	      google.charts.setOnLoadCallback(drawChart);
+
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable(myData);
+	    //    console.log(data);
+	        var options = {
+	          backgroundColor: '#A5A0A0',
+	          curveType: 'function',
+	          legend: { position: 'bottom' },
+	          hAxis: {showTextEvery: 4}
+	        };
+
+	        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+	        //chart.draw(data, google.charts.Line.convertOptions(options));
+	        chart.draw(data, options);
+	      }
 		
 	}
 </script>
@@ -162,6 +202,10 @@ GetClock();
 setInterval(GetClock,1000);
 }
 </script>
+<script type="text/javascript">
+      
+</script>
+
   </head>
   <body onload="init();">
   <style>
@@ -171,15 +215,21 @@ body {
 </style>
 
 <h1 style="font-family:Arial, sans-serif;font-size:30px;font-weight:bold;"><div font-size:20px; id="clockbox"></div></h1> </h1>
+<script type="text/javascript">
 
-
-
+		
+			
+</script>
        <div>
        <canvas id=gaugeCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=tempInCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=humCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
        <canvas id=barCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
-        <canvas id=strainCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       <canvas id=strainCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
+       
        </div>
+       <br></br>
+       <div id="curve_chart" style="width: 1100px; height: 400px"></div>
+
   </body>
 </html>

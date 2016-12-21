@@ -5,7 +5,7 @@ var server = app.listen(3000, function() {
 			console.log('BML now listening on port ' + server.address().port);
 		});
 var io = require('socket.io')(server);
-var client = mqtt.connect('tcp://54.173.2.135:1883');
+var client = mqtt.connect('tcp://54.165.237.24:1883');
 
 require('tls').SLAB_BUFFER_SIZE = 100 * 1024 //100Kb
 
@@ -21,6 +21,10 @@ io.on('connection', function(socket){
 	 socket.on('strainIn', function(msg){
 	   //console.log('message: ' + msg);
 	   io.sockets.emit('strainOut', msg);
+	 });
+	 socket.on('crateSum', function(msg){
+	   //console.log('message: ' + msg);
+	   io.sockets.emit('crateSumOut', msg);
 	 });
 	});
 
